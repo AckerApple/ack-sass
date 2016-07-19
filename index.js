@@ -16,7 +16,8 @@ packPathing.push.apply(packPathing, packJsonPathArray)
 packPathing.pop()//remove slash
 var packName = packPathing.pop()//package folder name
 
-var nodeModulesPath = path.join(packJsonPath, '../', 'node_modules')
+var nodeModulesPath = path.join(packJsonPath, '../', '../')
+//var nodeModulesPath = path.join(packJsonPath, '../', 'node_modules')
 //var nodeModulesPath = packName=='ack-sass' ? path.join(packJsonPath,'node_modules') : path.join(packJsonPath,'node_modules')
 
 /** returns Promise with result Object{map,css}
