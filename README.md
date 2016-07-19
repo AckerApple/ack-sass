@@ -5,7 +5,7 @@ node-sass implementation that greatly reduces configuration setup and also comes
 > Create file: scss.js
 ```
 var path = require('path')
-var ackSass = require('./ack-sass')
+var ackSass = require('ack-sass')
 var filePath = path.join(__dirname,'src','scss','style.scss')
 var outFilePath = path.join(__dirname,'www','assets','styles','styles.css')
 
@@ -19,7 +19,7 @@ ackSass.compileFile(filePath, outFilePath)
 
 ### Create NPM Script
 Using the above example file scss.js, create yourself a quick script
-> package.json
+> Edit file: package.json
 ```
 scripts:{
   "build:sass": "node scss"
