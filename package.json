@@ -1,6 +1,6 @@
 {
   "name": "ack-sass",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "node-sass implementation that greatly reduces configuration setup and also comes with css file importer",
   "main": "index.js",
   "scripts": {
@@ -21,6 +21,7 @@
   },
   "homepage": "https://github.com/AckerApple/ack-sass#readme",
   "dependencies": {
-    "node-sass": "^3.8.0"
+    "node-sass": "^3.8.0",
+    "node-sass-css-importer": "0.0.3"
   }
 }
