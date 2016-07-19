@@ -1,6 +1,6 @@
 {
   "name": "ack-sass",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "node-sass implementation that greatly reduces configuration setup and also comes with css file importer",
   "main": "index.js",
   "scripts": {
