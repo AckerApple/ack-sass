@@ -1,0 +1,26 @@
+{
+  "name": "ack-sass",
+  "version": "1.0.0",
+  "description": "node-sass implementation that greatly reduces configuration setup and also comes with css file importer",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AckerApple/ack-sass.git"
+  },
+  "keywords": [
+    "sass",
+    "scss"
+  ],
+  "author": "Acker Apple",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/AckerApple/ack-sass/issues"
+  },
+  "homepage": "https://github.com/AckerApple/ack-sass#readme",
+  "dependencies": {
+    "node-sass": "^3.8.0"
+  }
+}
