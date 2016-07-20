@@ -61,7 +61,11 @@ function compileFile(filePath, outFilePath, options){
   function writeFile(err, result){
     if(err)return rej(err)
     outResult = result
-    fs.writeFile(outFilePath, result.css, writeMap)
+    return ackPath(outFilePath).removeFileName().paramDir()
+    .then(()=>{
+      fs.writeFile(outFilePath, result.css, writeMap)
+    })
+    .catch( rej )
   }
 
   function endProcess(err){

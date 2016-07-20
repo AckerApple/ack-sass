@@ -1,10 +1,10 @@
 {
   "name": "ack-sass",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "node-sass implementation that greatly reduces configuration setup and also comes with css file importer",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "node test/scss.js"
   },
   "repository": {
     "type": "git",
