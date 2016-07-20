@@ -44,14 +44,14 @@ function compileFile(filePath, outFilePath, options){
   }
   options.importer.unshift(CssImporter)
 
-  if(options.includesPath){
-    if(!options.includesPath.split){//its not an array already
-      options.includesPath = [options.includesPath]
+  if(options.includePaths){
+    if(!options.includePaths.split){//its not an array already
+      options.includePaths = [options.includePaths]
     }
   }else{
-    options.includesPath = []
+    options.includePaths = []
   }
-  options.includesPath.unshift(nodeModsPath)
+  options.includePaths.unshift(nodeModsPath)
 
   options.file = options.file || filePath
   options.outputStyle = options.outputStyle || 'compressed'
