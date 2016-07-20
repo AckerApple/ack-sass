@@ -2,6 +2,7 @@
 
 module.exports.compileFile = compileFile
 
+var ack = require('ack-node')
 var sass = require('node-sass')
 var fs = require('fs')
 var sassCss = require('node-sass-css-importer')
@@ -77,4 +78,21 @@ function compileFile(filePath, outFilePath, options){
     rej=reject
     sass.render(options, writeFile)
   })
+}
+
+function pathRepeater(path, outPath, searchOps){
+  return function(File){
+    var rx = new RegExp('^'+path, 'i')
+    var addOn = ack.path(File.path).removeFileName().path.replace(rx,'')
+    var outFilePath = outPath+addOn+File.getFileName()
+    return compileFile(File.path, outFilePath, searchOps)
+  }
+}
+
+/** returns Promise with result Object{map,css}
+  @options - read options listed for render() function at https://www.npmjs.com/package/node-sass
+*/
+function compilePath(path, outPath, options){
+  var filter || ['**/**.scss']
+  return ack.path(path).recurFilePath(pathRepeater(path, outPath, searchOps))
 }

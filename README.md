@@ -12,14 +12,15 @@ html,body {margin:0;padding:0;width:100%;height:100%;}
 > Create File: styles.scss
 
 ```
-@import "CSS:some-css-file"/* never add .css extension */
+@import "CSS:./some-css-file"/* never add .css extension */
 html,body {margin:1em;padding:1em;}
 ```
 
-## NodeJs Build Example
+## NodeJs Build Examples
 The following example will compile a .scss file into a .css file
 
-> Create file: scss.js
+### Single File Build Example
+> Create file: scss-single.js
 
 ```
 var path = require('path')
@@ -35,12 +36,30 @@ ackSass.compileFile(filePath, outFilePath)
 })
 ```
 
-### Create NPM Script
-Using the above example file scss.js, create yourself a quick script
+### Multi File Build Example
+> Create file: scss.js
+
+```
+var path = require('path')
+var ackSass = require('ack-sass')
+var filePath = path.join(__dirname,'scss')
+var outFilePath = path.join(__dirname,'css')
+
+console.log('compiling sass path')
+
+ackSass.compilePath(filePath, outFilePath)
+.then(function(){
+  console.log('compiling path completed')
+})
+```
+
+## Create NPM Scripts
+Using the above examples, create yourself a quick script
 
 > Edit file: package.json
 ```
 scripts:{
+  "build:sass:single": "node scss-single",
   "build:sass": "node scss"
 }
 ```
@@ -54,7 +73,7 @@ JSPM is crazy awesome as of this writing, you will most likely need to include c
 $ npm install --save-dev sass-jspm-importer
 ```
 
-> Create File: scss.js (an edit of [previous example](#nodejs-build-example))
+> Create File: scss.js (an edit of [previous example](#single-file-build-example))
 
 ```
 var path = require('path')
