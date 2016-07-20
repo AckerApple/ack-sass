@@ -31,7 +31,7 @@ function compileFile(filePath, outFilePath, options){
     import_paths: [nodeModsPath]
   })
 
-  options == options || {}
+  options = options || {}
 
   if(options.importer){
     if(!options.importer.join){//its not an array already
