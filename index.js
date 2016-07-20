@@ -3,7 +3,7 @@
 module.exports.compileFile = compileFile
 module.exports.compilePath = compilePath
 
-var ack = require('ack-node')
+var ackPath = require('ack-path')
 var sass = require('node-sass')
 var fs = require('fs')
 var sassCss = require('node-sass-css-importer')
@@ -84,7 +84,7 @@ function compileFile(filePath, outFilePath, options){
 function pathRepeater(path, outPath, options){
   return function(File){
     var rx = new RegExp('^'+path, 'i')
-    var addOn = ack.path(File.path).removeFileName().path.replace(rx,'')
+    var addOn = ackPath(File.path).removeFileName().path.replace(rx,'')
     var outFilePath = outPath+addOn+File.getName()
     return compileFile(File.path, outFilePath, options)
   }
@@ -96,5 +96,5 @@ function pathRepeater(path, outPath, options){
 function compilePath(path, outPath, options){
   var filter = ['**/**.scss','**.scss']
   var repeater = pathRepeater(path, outPath, options)
-  return ack.path(path).recurFilePath(repeater, {filter:filter})
+  return ackPath(path).recurFilePath(repeater, {filter:filter})
 }
