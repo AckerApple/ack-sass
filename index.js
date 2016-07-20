@@ -1,6 +1,7 @@
 "use strict";
 
 module.exports.compileFile = compileFile
+module.exports.compilePath = compilePath
 
 var ack = require('ack-node')
 var sass = require('node-sass')
@@ -80,12 +81,12 @@ function compileFile(filePath, outFilePath, options){
   })
 }
 
-function pathRepeater(path, outPath, searchOps){
+function pathRepeater(path, outPath, options){
   return function(File){
     var rx = new RegExp('^'+path, 'i')
     var addOn = ack.path(File.path).removeFileName().path.replace(rx,'')
-    var outFilePath = outPath+addOn+File.getFileName()
-    return compileFile(File.path, outFilePath, searchOps)
+    var outFilePath = outPath+addOn+File.getName()
+    return compileFile(File.path, outFilePath, options)
   }
 }
 
@@ -93,6 +94,7 @@ function pathRepeater(path, outPath, searchOps){
   @options - read options listed for render() function at https://www.npmjs.com/package/node-sass
 */
 function compilePath(path, outPath, options){
-  var filter || ['**/**.scss']
-  return ack.path(path).recurFilePath(pathRepeater(path, outPath, searchOps))
+  var filter = ['**/**.scss','**.scss']
+  var repeater = pathRepeater(path, outPath, options)
+  return ack.path(path).recurFilePath(repeater, {filter:filter})
 }
