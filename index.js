@@ -89,8 +89,9 @@ function pathRepeater(path, outPath, options){
   return function(File){
     var rx = new RegExp('^'+path, 'i')
     var addOn = ackPath(File.path).removeFileName().path.replace(rx,'')
-    var outFilePath = outPath+addOn+File.getName()
-    return compileFile(File.path, outFilePath, options)
+    var fromPath = File.path
+    var outFilePath = outPath+addOn+File.removeExt().getName()+'.css'
+    return compileFile(fromPath, outFilePath, options)
   }
 }
 

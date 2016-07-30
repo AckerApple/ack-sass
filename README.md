@@ -34,6 +34,7 @@ ackSass.compileFile(filePath, outFilePath)
 .then(function(){
   console.log('compiling completed')
 })
+.catch(console.log.bind(console))
 ```
 
 ### Multi File Build Example
@@ -51,6 +52,7 @@ ackSass.compilePath(filePath, outFilePath)
 .then(function(){
   console.log('compiling path completed')
 })
+.catch(console.log.bind(console))
 ```
 
 ## Create NPM Scripts
@@ -93,4 +95,5 @@ ackSass.compileFile(filePath, outFilePath, options)
 .then(function(){
   console.log('compiling completed')
 })
+.catch(console.log.bind(console))
 ```
