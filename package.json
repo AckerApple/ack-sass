@@ -6,6 +6,9 @@
   "scripts": {
     "test": "node test/scss.js"
   },
+  "bin": {
+    "ack-sass": "./cli.js"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/AckerApple/ack-sass.git"
