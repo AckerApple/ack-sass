@@ -1,15 +1,13 @@
-console.log(222)
+#!/usr/bin/env node
 
-process.exit()
-
-
-
-const isProd = process.env.NODE_ENV=='production' || process.argv.indexOf('--production')>=0
+var args = process.argv.splice(2)
+var rootPath = process.cwd()
+var isProd = args.indexOf('--production')>1 || (process.env && process.env.NODE_ENV=='production')
 
 var path = require('path')
 var ackSass = require('ack-sass')
-var filePath = path.join(__dirname,'../','src','scss','styles.scss')
-var outFilePath = path.join(__dirname,'../','www','assets','styles','styles.css')
+var filePath = path.join(rootPath,args[0])
+var outFilePath = path.join(rootPath,args[1])
  
 var sassJspm = require('sass-jspm-importer')
 var options={
@@ -24,14 +22,13 @@ if(isProd && !options.sourceMap){
   options.omitSourceMapUrl = true
   options.sourceMap = false
   options.sourceMapEmbed = false
-  console.log('compiling production sass')
+  console.log('\x1b[36m[ack-sass]\x1b[0m: compiling production sass')
 }else{
-  console.log('compiling sass')
+  console.log('\x1b[36m[ack-sass]\x1b[0m: compiling sass')
 }
- 
- 
+  
 ackSass.compileFile(filePath, outFilePath, options)
 .then(function(){
-  console.log('compiling completed')
+  console.log('\x1b[36m[ack-sass]\x1b[0m: compiling completed')
 })
 .catch(console.log.bind(console))

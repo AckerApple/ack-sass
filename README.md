@@ -97,3 +97,17 @@ ackSass.compileFile(filePath, outFilePath, options)
 })
 .catch(console.log.bind(console))
 ```
+
+## CLI
+The following command will compile one scss file into one css file
+```
+ack-sass src/styles.scss www/assets/styles/styles.css
+```
+
+> Recommended to include the following in your package.json scripts
+```
+"scripts":{
+  "build:css": "ack-sass src/styles.scss www/assets/styles/styles.css --production",
+  "watch:css": "watch 'ack-sass src/styles.scss www/assets/styles/styles.css' src/scss"
+}
+```
