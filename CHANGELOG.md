@@ -1,6 +1,10 @@
 # ack-sass - Change Log
 All notable changes to this project will be documented here.
 
+## [1.0.14] - 2017-03-02
+### Added
+- .watchFile
+- .watchPath
 
 ## [1.0.13] - 2016-07-19
 ### Updated

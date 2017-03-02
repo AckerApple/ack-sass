@@ -1,3 +1,7 @@
 @import 'CSS:./styles';
+@import './sub/second-styles';
 
 html,body {margin:1em;padding:1em;}
+
+.p0 {color:black;}
+p {@extend .p0;border:1px solid black;}

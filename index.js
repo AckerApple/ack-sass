@@ -2,7 +2,12 @@
 
 module.exports.compileFile = compileFile
 module.exports.compilePath = compilePath
+module.exports.watchFile = watchFile
+module.exports.watchPath = watchPath
 
+var log = require('./log.function')
+var grapher = require('sass-graph')
+var watch = require('watch')
 var ackPath = require('ack-path')
 var sass = require('node-sass')
 var fs = require('fs')
@@ -26,7 +31,7 @@ var nodeModulesPath = path.join(packJsonPath, '../', '../')
   @options - read options listed for render() function at https://www.npmjs.com/package/node-sass
 */
 function compileFile(filePath, outFilePath, options){
-  var res,rej,outResult, nodeModsPath = nodeModulesPath
+  var res, rej, outResult, nodeModsPath = nodeModulesPath
 
   //Allow includde of raw css files
   var CssImporter = sassCss({
@@ -53,7 +58,7 @@ function compileFile(filePath, outFilePath, options){
   }
   options.includePaths.unshift(nodeModsPath)
 
-  options.file = options.file || filePath
+  options.file = filePath || options.file
   options.outputStyle = options.outputStyle || 'compressed'
   options.outFile = options.outFile || outFilePath.split(/(\\|\/)/).pop()//fileName for map reference
   options.sourceMap = options.sourceMap==null ? true : options.sourceMap
@@ -85,13 +90,14 @@ function compileFile(filePath, outFilePath, options){
   })
 }
 
-function pathRepeater(path, outPath, options){
-  return function(File){
-    var rx = new RegExp('^'+path, 'i')
+function pathRepeater(pathTo, outPath, options){
+  return function(File,p){
+    var rx = new RegExp('^'+pathTo, 'i')
     var addOn = ackPath(File.path).removeFileName().path.replace(rx,'')
-    var fromPath = File.path
-    var outFilePath = outPath+addOn+File.removeExt().getName()+'.css'
-    return compileFile(fromPath, outFilePath, options)
+    var outFilePath = path.join(outPath, addOn, File.Join().removeExt().getName()+'.css')
+
+    return compileFile(File.path, outFilePath, options)
+    .catch(e=>log.error(e))
   }
 }
 
@@ -102,4 +108,92 @@ function compilePath(path, outPath, options){
   var filter = ['**/**.scss','**.scss']
   var repeater = pathRepeater(path, outPath, options)
   return ackPath(path).recurFilePath(repeater, {filter:filter})
+}
+
+function watchPath(path, outPath, options){
+  var outPathLower = outPath.toLowerCase()
+
+  function callback(){
+    log('path change detected', getServerTime())
+    compilePath(path, outPath, options)
+  }
+
+  var graph = grapher.parseDir(path, options)
+  var importMatches = getFilterByGraph(graph)
+  options = options || {}
+  options.filter = function(pathTo, stat){
+    return (filterMaker(pathTo,stat) || importMatches(pathTo, stat)) && pathTo.toLowerCase().substring(0, outPathLower.length) != outPathLower
+  }
+
+  return createPathWatcher(path, callback, options)
+}
+
+function watchFile(filePath, outFilePath, options){
+  var folderPath = path.join(filePath,'../')
+  var filePathLower = filePath.toLowerCase()
+  //var fileName = filePath.split( path.sep ).pop()
+
+  function callback(){
+    log('file change detected', getServerTime())
+    compileFile(filePath, outFilePath, options)
+  }
+  
+  var graph = grapher.parseFile(filePath, options)
+  var importMatches = getFilterByGraph(graph)
+
+  options = options || {}
+  options.filter = function(pathTo, stat){
+    return pathTo.toLowerCase() == filePathLower || importMatches(pathTo, stat)
+  }
+
+  return createPathWatcher(folderPath, callback, options)
+}
+
+function getFilterByGraph(graph){
+  return function (pathTo, stat){
+    if(stat.isDirectory()){
+      for(var key in graph.index){
+        if(key.substring(0, pathTo.length)==pathTo){
+          return true
+        }
+      }
+    }
+
+    for(var key in graph.index){
+      if(key==pathTo){
+        log('watching',pathTo)
+        return true
+      }
+    }
+  }
+}
+
+
+function createPathWatcher(pathTo, reloader, options){
+  options = options || {}
+  options.filter = options.filter || filterMaker('scss','css','sass')
+
+  return watch.createMonitor(pathTo, options, function (monitor) {
+    monitor.on("created", reloader)
+    monitor.on("changed", reloader)
+    monitor.on("removed", reloader)
+  })
+}
+
+function filterMaker(){
+  var argPipes = 'scss|sass|css'
+
+  if(arguments.length){
+    argPipes = Array.prototype.slice.call(arguments).join('|')
+  }
+  var regx = new RegExp('\\.('+argPipes+')$')
+
+  return function(pathTo, stat){
+    return stat.isDirectory() || pathTo.search(regx)>=0
+  }
+}
+
+function getServerTime(d){
+  d = d || new Date()
+  var h=d.getHours(),t='AM',m=d.getMinutes();m=m<10?'0'+m:m;h=h>=12?(t='PM',h-12||12):h==0?12:h;return ('0'+h).slice(-2)+':'+m+':'+d.getSeconds()+':'+d.getMilliseconds()+' '+t
 }

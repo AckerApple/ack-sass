@@ -1,7 +1,20 @@
 # ack-sass
 A [node-sass](https://www.npmjs.com/package/node-sass) implementation that greatly reduces configuration setup and also comes with natural css file importing functionality
 
-## Sass Include CSS Example
+### Table of Contents
+- [Examples](#examples)
+  - [Sass Include CSS Example](#sass-include-css-example)
+  - [Single File Build Example](#single-file-build-example)
+  - [Multi File Build Example](#multi-file-build-example)
+  - [Single File Watch Example](#single-file-watch-example)
+  - [Multi File Watch Example](#multi-file-watch-example)
+- [Create NPM Scripts](#create-npm-scripts)
+- [Include JSPM](#include-jspm)
+- [Command Line Interface](#command-line-interface)
+
+## Examples
+
+### Sass Include CSS Example
 
 > Create File: styles.css
 
@@ -16,11 +29,8 @@ html,body {margin:0;padding:0;width:100%;height:100%;}
 html,body {margin:1em;padding:1em;}
 ```
 
-## NodeJs Build Examples
-The following example will compile a .scss file into a .css file
-
 ### Single File Build Example
-> Create file: scss-single.js
+> Create file: scss-build.js
 
 ```
 var path = require('path')
@@ -38,7 +48,7 @@ ackSass.compileFile(filePath, outFilePath)
 ```
 
 ### Multi File Build Example
-> Create file: scss.js
+> Create file: scss-build-path.js
 
 ```
 var path = require('path')
@@ -51,6 +61,42 @@ console.log('compiling sass path')
 ackSass.compilePath(filePath, outFilePath)
 .then(function(){
   console.log('compiling path completed')
+})
+.catch(console.log.bind(console))
+```
+
+### Single File Watch Example
+> Create file: scss-watch-single.js
+
+```
+var path = require('path')
+var ackSass = require('ack-sass')
+var filePath = path.join(__dirname,'styles.scss')
+var outFilePath = path.join(__dirname,'styles.css')
+
+console.log('compiling sass')
+
+ackSass.watchFile(filePath, outFilePath)
+.then(function(){
+  console.log('watching is occurring')
+})
+.catch(console.log.bind(console))
+```
+
+### Multi File Build Example
+> Create file: scss-watch-path.js
+
+```
+var path = require('path')
+var ackSass = require('ack-sass')
+var filePath = path.join(__dirname,'scss')
+var outFilePath = path.join(__dirname,'css')
+
+console.log('compiling sass path')
+
+ackSass.watchPath(filePath, outFilePath)
+.then(function(){
+  console.log('watching path is occuring')
 })
 .catch(console.log.bind(console))
 ```
@@ -98,11 +144,39 @@ ackSass.compileFile(filePath, outFilePath, options)
 .catch(console.log.bind(console))
 ```
 
-## CLI
-The following command will compile one scss file into one css file
+## Command Line Interface
+CLI, The following command will compile one scss file into one css file
+
+Build File
 ```
-ack-sass src/styles.scss www/assets/styles/styles.css
+ack-sass src/styles.scss www/assets/styles/styles.css --production
 ```
+
+Build Folder
+```
+ack-sass src/ www/assets/styles/ --directory
+```
+
+Watch File
+```
+ack-sass src/styles.scss www/assets/styles/styles.css --watch
+```
+
+Watch Folder
+```
+ack-sass src/ www/assets/styles/ --watch --directory
+```
+
+### CLI Options
+
+- watch
+  - watches all files within import (except CSS:include)
+  - watches all scss, sass, and css files within target folder
+  - does not watch "CSS:include" files that are included OUTSIDE of building folder
+- production
+  - minify files
+- directory
+  - mode is to build entire folder instead of a single file
 
 > Recommended to include the following in your package.json scripts
 ```

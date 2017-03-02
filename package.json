@@ -1,10 +1,14 @@
 {
   "name": "ack-sass",
-  "version": "1.0.13",
+  "version": "1.0.14",
   "description": "node-sass implementation that greatly reduces configuration setup and also comes with css file importer",
   "main": "index.js",
   "scripts": {
-    "test": "node test/scss.js"
+    "test": "node test/scss.js",
+    "build": "node cli-test test/styles.scss test/compiled-tests/build-css-styles.css --production",
+    "build:path": "node cli-test test test/compiled-tests --directory --production",
+    "watch": "node cli-test test/styles.scss test/compiled-tests/build-css-styles.css --watch",
+    "watch:path": "node cli-test test test/compiled-tests --directory --watch"
   },
   "bin": {
     "ack-sass": "./cli.js"
@@ -24,8 +28,9 @@
   },
   "homepage": "https://github.com/AckerApple/ack-sass#readme",
   "dependencies": {
-    "ack-path": "^1.0.0",
+    "ack-path": "^1.5.0",
     "node-sass": "^3.13.0",
-    "node-sass-css-importer": "0.0.3"
+    "node-sass-css-importer": "0.0.3",
+    "watch": "^1.0.2"
   }
 }
