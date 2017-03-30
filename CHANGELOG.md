@@ -1,6 +1,10 @@
 # ack-sass - Change Log
 All notable changes to this project will be documented here.
 
+## [1.1.0] - 2017-03-30
+### Breaking Changes
+- updated node-sass from 3.13.0 to 4.5.2
+
 ## [1.0.14] - 2017-03-02
 ### Added
 - .watchFile
