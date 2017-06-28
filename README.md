@@ -18,13 +18,13 @@ A [node-sass](https://www.npmjs.com/package/node-sass) implementation that great
 
 > Create File: styles.css
 
-```
+```css
 html,body {margin:0;padding:0;width:100%;height:100%;}
 ```
 
 > Create File: styles.scss
 
-```
+```css
 @import "CSS:./some-css-file"/* never add .css extension */
 html,body {margin:1em;padding:1em;}
 ```
@@ -32,7 +32,7 @@ html,body {margin:1em;padding:1em;}
 ### Single File Build Example
 > Create file: scss-build.js
 
-```
+```javascript
 var path = require('path')
 var ackSass = require('ack-sass')
 var filePath = path.join(__dirname,'styles.scss')
@@ -50,7 +50,7 @@ ackSass.compileFile(filePath, outFilePath)
 ### Multi File Build Example
 > Create file: scss-build-path.js
 
-```
+```javascript
 var path = require('path')
 var ackSass = require('ack-sass')
 var filePath = path.join(__dirname,'scss')
@@ -68,7 +68,7 @@ ackSass.compilePath(filePath, outFilePath)
 ### Single File Watch Example
 > Create file: scss-watch-single.js
 
-```
+```javascript
 var path = require('path')
 var ackSass = require('ack-sass')
 var filePath = path.join(__dirname,'styles.scss')
@@ -86,7 +86,7 @@ ackSass.watchFile(filePath, outFilePath)
 ### Multi File Build Example
 > Create file: scss-watch-path.js
 
-```
+```javascript
 var path = require('path')
 var ackSass = require('ack-sass')
 var filePath = path.join(__dirname,'scss')
@@ -105,7 +105,7 @@ ackSass.watchPath(filePath, outFilePath)
 Using the above examples, create yourself a quick script
 
 > Edit file: package.json
-```
+```javascript
 scripts:{
   "build:sass:single": "node scss-single",
   "build:sass": "node scss"
@@ -117,13 +117,13 @@ JSPM is crazy awesome as of this writing, you will most likely need to include c
 
 > Import [sass-jspm-importer](https://www.npmjs.com/package/sass-jspm-importer) into project
 
-```
+```bash
 $ npm install --save-dev sass-jspm-importer
 ```
 
 > Create File: scss.js (an edit of [previous example](#single-file-build-example))
 
-```
+```javascript
 var path = require('path')
 var ackSass = require('ack-sass')
 var filePath = path.join(__dirname,'styles.scss')
@@ -148,22 +148,22 @@ ackSass.compileFile(filePath, outFilePath, options)
 CLI, The following command will compile one scss file into one css file
 
 Build File
-```
+```bash
 ack-sass src/styles.scss www/assets/styles/styles.css --production
 ```
 
 Build Folder
-```
+```bash
 ack-sass src/ www/assets/styles/ --directory
 ```
 
 Watch File
-```
+```bash
 ack-sass src/styles.scss www/assets/styles/styles.css --watch
 ```
 
 Watch Folder
-```
+```bash
 ack-sass src/ www/assets/styles/ --watch --directory
 ```
 
@@ -179,7 +179,7 @@ ack-sass src/ www/assets/styles/ --watch --directory
   - mode is to build entire folder instead of a single file
 
 > Recommended to include the following in your package.json scripts
-```
+```javascript
 "scripts":{
   "build:css": "ack-sass src/styles.scss www/assets/styles/styles.css --production",
   "watch:css": "watch 'ack-sass src/styles.scss www/assets/styles/styles.css' src/scss"
