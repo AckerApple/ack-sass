@@ -66,7 +66,7 @@ function compileFile(filePath, outFilePath, options){
   function writeFile(err, result){
     if(err)return rej(err)
     outResult = result
-    return ackPath(outFilePath).removeFileName().paramDir()
+    return ackPath.default(outFilePath).removeFileName().paramDir()
     .then(()=>{
       fs.writeFile(outFilePath, result.css, writeMap)
     })
@@ -93,7 +93,7 @@ function compileFile(filePath, outFilePath, options){
 function pathRepeater(pathTo, outPath, options){
   return function(File,p){
     var rx = new RegExp('^'+pathTo, 'i')
-    var addOn = ackPath(File.path).removeFileName().path.replace(rx,'')
+    var addOn = ackPath.default(File.path).removeFileName().path.replace(rx,'')
     var outFilePath = path.join(outPath, addOn, File.Join().removeExt().getName()+'.css')
 
     return compileFile(File.path, outFilePath, options)
@@ -107,7 +107,7 @@ function pathRepeater(pathTo, outPath, options){
 function compilePath(path, outPath, options){
   var filter = ['**/**.scss','**.scss']
   var repeater = pathRepeater(path, outPath, options)
-  return ackPath(path).recurFilePath(repeater, {filter:filter})
+  return ackPath.default(path).recurFilePath(repeater, {filter:filter})
 }
 
 function watchPath(path, outPath, options){
