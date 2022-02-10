@@ -29,7 +29,7 @@
   "homepage": "https://github.com/AckerApple/ack-sass#readme",
   "dependencies": {
     "ack-path": "^1.8.0",
-    "node-sass": "^4.14.1",
+    "node-sass": "^7.0.0",
     "node-sass-css-importer": "0.0.3",
     "watch": "^1.0.2"
   }
